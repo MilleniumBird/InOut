@@ -5,19 +5,24 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
+import { CreateEntryPageModule } from '../pages/create-entry/create-entry.module';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { EntrystorageProvider } from '../providers/entrystorage/entrystorage';
+
+import { SecureStorage} from '@ionic-native/secure-storage';
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    ListPage
+    ListPage,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
+    CreateEntryPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -26,9 +31,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ListPage
   ],
   providers: [
+    SecureStorage,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    EntrystorageProvider
   ]
 })
 export class AppModule {}
