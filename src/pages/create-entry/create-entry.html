@@ -7,8 +7,8 @@
 <ion-header>
 
   <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
+    <button ion-button >
+      <ion-icon name="ios-arrow-round-back"></ion-icon>
     </button>
     <ion-title>createEntry</ion-title>
   </ion-navbar>
@@ -17,7 +17,6 @@
 
 
 <ion-content padding>
-  <p>{{createEntryObj}}</p>
   <ion-list>
     <ion-item>
       <ion-label floating>Kategorie:</ion-label>
@@ -31,13 +30,11 @@
       <ion-label floating>Preis:</ion-label>
       <ion-input type="number" (input)="updateEntry($event, 'price')"></ion-input>
     </ion-item>
-    <ion-item>
-      <ion-label stacked>Datum:</ion-label>
-      <ion-input type="date" (input)="updateEntry($event, 'date')"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label stacked>Wiederholung:</ion-label>
-      <ion-input type="text" (input)="updateEntry($event, 'date')" placeholder="w,d,h,min,sec,ms"></ion-input>
-    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col col-6><button ion-button full><ion-icon name="add"></ion-icon></button></ion-col>
+        <ion-col col-6><button ion-button full><ion-icon name="remove"></ion-icon> </button></ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-list>
 </ion-content>

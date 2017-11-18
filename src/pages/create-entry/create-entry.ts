@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { IonicPage, NavController, NavParams, Nav } from 'ionic-angular';
+
+import { HomePage } from '../../pages/home/home';
 
 /**
  * Generated class for the CreateEntryPage page.
@@ -14,6 +16,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'create-entry.html',
 })
 export class CreateEntryPage {
+  
+  @ViewChild(Nav) nav: Nav;
+
   private createEntryObj = "{}";
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
@@ -27,5 +32,9 @@ export class CreateEntryPage {
     let entryObj: object = JSON.parse(this.createEntryObj);
     entryObj[propName] = event.target.value;
     this.createEntryObj = JSON.stringify(entryObj);
+  }
+
+  backToHome () {
+    this.nav.setRoot(HomePage);
   }
 }
