@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, Events } from 'ionic-angular';
 import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
 import { AddEntryPage } from '../add-entry/add-entry';
-import { IonicPageMetadata } from 'ionic-angular/navigation/ionic-page';
+import { DetailsPage } from '../details/details';
 
 @Component({
   selector: 'page-home',
@@ -11,12 +11,14 @@ import { IonicPageMetadata } from 'ionic-angular/navigation/ionic-page';
 export class HomePage {
   private entries: Array<InoutEntry> = [];
   private balance: number = 0;
-  private addEntry: any = AddEntryPage;
+  private addEntry: any;
+  private detailsPage: any;
 
   constructor(public navCtrl: NavController, private entriesProv: EntriesProvider, public events: Events) {
     console.log("started app");
     this.getEntries ();
-
+    this.addEntry = AddEntryPage;
+    this.detailsPage = DetailsPage;
     // events
     this.events.subscribe('reloadData', () => {
       this.getEntries();
@@ -26,12 +28,11 @@ export class HomePage {
   getEntries () {
     this.entries = this.entriesProv.getAll().reverse();
     console.log(this.entries);
-
+    this.balance = 0;
     // get balance
     for (let i = 0; i < this.entries.length; ++i) {
       this.balance += Number(this.entries[i].price)*100;
     }
-    this.balance 
     // draw the canvas 
     let intervalId = setInterval(() => {
       let canvasAvatarArr = document.getElementsByClassName('avatarCategory');
@@ -43,9 +44,9 @@ export class HomePage {
           path.arc(24,24,24,0,2*Math.PI, false);
           context.fillStyle = "#2196F3";
           context.fill(path);
-          context.font = "40px serif";
+          context.font = "40px Verdana";
           context.fillStyle = 'white';
-          context.fillText(this.entries[i].category.substr(0,1), 18, 35);
+          context.fillText(this.entries[i].category.substr(0,1), 13, 36);
         }
         clearInterval(intervalId);
       }

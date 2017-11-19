@@ -8,6 +8,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AddEntryPageModule }from '../pages/add-entry/add-entry.module';
 import { EntriesProvider } from '../providers/entries/entries';
+import { DetailsPageModule } from '../pages/details/details.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { EntriesProvider } from '../providers/entries/entries';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    AddEntryPageModule
+    AddEntryPageModule,
+    DetailsPageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

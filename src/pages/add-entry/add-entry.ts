@@ -16,7 +16,6 @@ import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
 })
 export class AddEntryPage {
   private inputObj: any = {};
-  private JSONin;
   constructor(public navCtrl: NavController, public navParams: NavParams, private entriesProv: EntriesProvider, public events: Events) {
 
   }
@@ -26,7 +25,6 @@ export class AddEntryPage {
   }
   changeInputObj (ev: any, name: string) {
     this.inputObj[name] = ev.target.value;
-    this.JSONin = JSON.stringify(this.inputObj);
   }
 
   addEntryToStorage (factor: number){

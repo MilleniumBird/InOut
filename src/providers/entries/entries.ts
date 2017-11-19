@@ -12,6 +12,11 @@ export class EntriesProvider {
   constructor() {
     console.log("Connect to localstorage");
   }
+
+  delete (key: string) {
+    window.localStorage.removeItem(key);
+  }
+
   set (value: InoutEntry) {
     window.localStorage.setItem(value.key, value.toString());
   }
@@ -28,6 +33,11 @@ export class EntriesProvider {
     return arr;
   }
 
+}
+
+export enum DateFormat {
+  lastTwo = 'LAST_TWO',
+  dateInput = 'DATE_STRING'
 }
 
 export class InoutEntry {
@@ -57,6 +67,28 @@ export class InoutEntry {
     return JSON.stringify(this.object);
   }
 
+
+
+  formatDate (date: number,dateFormat: DateFormat): string {
+    switch (dateFormat) {
+      case DateFormat.dateInput: 
+        let d: Date = new Date(date);
+        return `${d.getFullYear()}-${(d.getMonth()+1)<10? "0"+(d.getMonth()+1): (d.getMonth()+1) }-${d.getDate()<10?"0"+d.getDate(): d.getDate()}`;
+      case DateFormat.lastTwo: 
+        let now = Date.now();
+        if (now-date < 1000*60*60) {
+          return `vor ${Math.floor((now-date)/60000)} Minuten`;
+        } else if (now-date < 1000*60*60*24) {
+          return `vor ${Math.floor((now-date)/(3600000))} Stunden`;
+        } else {
+          let d: Date = new Date(date);
+          return `${d.getDate()<10?"0"+d.getDate(): d.getDate()}.${(d.getMonth()+1)<10? "0"+(d.getMonth()+1): (d.getMonth()+1) }`;
+        }
+      default: 
+        throw new Error('this dateFormat isnt known');
+    }
+  }
+
   // getter and setter
 
   get category ():string {
@@ -78,6 +110,13 @@ export class InoutEntry {
   }
   set key (val: string) {
     this.object.key = val;
+  }
+
+  get time ():number{
+    return this.object.time;
+  }
+  set time(time: number){
+    this.object.time = time;
   }
 
   get details ():string {
