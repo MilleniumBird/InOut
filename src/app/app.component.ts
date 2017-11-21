@@ -6,6 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { ImpressumPage } from '../pages/impressum/impressum';
 import { HomePage } from '../pages/home/home';
 import { DisclaimerPage } from '../pages/disclaimer/disclaimer';
+import { DatenschutzPage } from '../pages/datenschutz/datenschutz';
+
 @Component({
   templateUrl: 'app.html'
 })
@@ -18,7 +20,7 @@ export class InOut {
   ];
   private pagesLaw: Array<any> = [
   {title: "Impressum", component: ImpressumPage},
-  {title: "Datenschutz", component: HomePage},
+  {title: "Datenschutz", component: DatenschutzPage},
   {title: "Disclaimer", component: DisclaimerPage}
   ]
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
