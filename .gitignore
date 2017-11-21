@@ -36,3 +36,5 @@ UserInterfaceState.xcuserstate
 platforms
 package-lock.json
 resources
+src/pages/impressum
+src/pages/disclaimer

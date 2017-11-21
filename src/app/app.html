@@ -1,1 +1,25 @@
-<ion-nav [root]="rootPage"></ion-nav>
+<ion-menu [content]="pages">
+	<ion-header>
+		<ion-toolbar>
+			<ion-title>InOut</ion-title>
+		</ion-toolbar>
+	</ion-header>
+	<ion-content>
+		<ion-list>
+			<button ion-item (click)="openPage(p.component)" *ngFor="let p of pagesDefault" menuClose>
+				{{p.title}}
+			</button>
+			<button ion-item (click)="toggleLaw()">
+				Rechtliches
+			</button>
+			<ion-item *ngIf="showLaw">
+				<button ion-item *ngFor="let p of pagesLaw" (click)="openPage(p.component)" menuClose>
+					{{p.title}}
+				</button>
+			</ion-item>
+		</ion-list>
+	</ion-content>
+</ion-menu>
+
+
+<ion-nav #pages [root]="rootPage"></ion-nav>
