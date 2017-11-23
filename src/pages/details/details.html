@@ -11,6 +11,9 @@
 </ion-header>
 
 <ion-content padding>
+    <h5 *ngIf="entry.repeatable.copy === true">Wenn du diesen Datensatz veränderst wird dieser als eigener Datensatz in Zukunft angesehen. Verändere den Inhalt des ältesten sich wiederholenden
+        Eintrag um alle Nachfolgenden mitzuverändern.
+      </h5>
   <ion-list>
     <ion-item>
       <ion-label floating>Kategorie:</ion-label>

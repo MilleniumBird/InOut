@@ -1,17 +1,28 @@
 import { Injectable } from '@angular/core';
 
-/*
-  Generated class for the EntriesProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
+export interface Repeat {
+  repeat: boolean,
+  copy?: boolean, // true when is child of repeatable object
+  exept?: Array<number> // a array of Elements that should not get in the output 
+}
+
+export interface allEntries {
+  repeat: Array<InoutEntry>
+  once: Array<InoutEntry>
+}
+
+
 @Injectable()
 export class EntriesProvider {
 
   constructor() {
     console.log("Connect to localstorage");
   }
+  /**
+   * checks the version number of the entry if it isnt equal to actual version update entry
+   * @param {String} key 
+   */
 
   delete (key: string) {
     window.localStorage.removeItem(key);
@@ -21,16 +32,57 @@ export class EntriesProvider {
     window.localStorage.setItem(value.key, value.toString());
   }
 
-  getAll(): Array<InoutEntry> {
-    let arr = [];
+  getAllEntries(): allEntries {
+    let rep = [];
+    let once = [];
     let storLength = window.localStorage.length;
     for (let i = 0; i < storLength; ++i) {
-      let key = window.localStorage.key(i)
+      let key = window.localStorage.key(i);
       if ('_ENTRY_' === key.substr(0,7)) {
-        arr.push(InoutEntry.toObject(window.localStorage.getItem(key)));
+        let entry = InoutEntry.toObject(window.localStorage.getItem(key));
+        if (entry.repeatable.repeat === false) {
+          once.push(entry);
+        } else if (entry.repeatable.repeat === true) {
+          rep.push(entry);
+          // add the repeating items
+          // weekly 
+          if (entry.repeatable.weekly !== undefined) {
+            let creationDate = new Date (entry.time);
+            let exeptList = entry.repeatable.exept.slice(0);
+            for (let dayOfWeek of entry.repeatable.weekly) {
+              dayOfWeek = Number(dayOfWeek);
+              let date;
+              if (creationDate.getDay() < dayOfWeek) {
+                date = new Date(creationDate.getTime() + (dayOfWeek-creationDate.getDay())*24*60*60*1000);
+              } else if (creationDate.getDay() > dayOfWeek) {
+                date = new Date(creationDate.getTime() + (7-creationDate.getDay()+dayOfWeek)*24*60*60*1000);
+              } else {
+                date = new Date(creationDate.getTime() + (7)*24*60*60*1000);
+              }
+              while (true) {
+                entry = InoutEntry.toObject(entry.toString());
+                if (Date.now() <= date.getTime()) {
+                  break;
+                } else if (exeptList.indexOf(date.getTime()) >= 0) {
+                  date = new Date (date.getTime() + 7*24*60*60*1000);
+                  continue;
+                }
+                entry.repeatable = {repeat: false, copy: true};
+                entry.time = date.getTime();
+                rep.push(entry);
+                date = new Date (date.getTime() + 7*24*60*60*1000);
+              }
+            }
+          }
+        } else {
+          throw new Error("unexpected to reach this line");
+        }
       }
     }
-    return arr;
+    return {
+      repeat: rep,
+      once: once
+    };
   }
 
 }
@@ -41,30 +93,50 @@ export enum DateFormat {
 }
 
 export class InoutEntry {
-  private object: any = {};
-  constructor (category: string, price: number, details: string, time: number = Date.now(), key: string = `_ENTRY_${Date.now()}`) {
-    this.object.category = category;
-    this.object.price = price;
-    this.object.details = details;
-    this.object.key = key;
-    this.object.time = time;
+  static version: number = 1;
+
+  constructor (
+    public version: number,
+    private _category: string, 
+    private _price: number, 
+    private _details: string, 
+    private _time: number = Date.now(), 
+    private _repeatable: Repeat = {repeat: false},
+    private _key: string = `_ENTRY_${Date.now()}`, 
+    ) {
   }
+
   static toObject (JSONstring) {
     let obj: any = JSON.parse(JSONstring);
     if (!obj.category || !obj.price) {
       throw new Error ('no input');
     }
+    if (obj.version !== InoutEntry.version && obj.key) {
+      obj.version = InoutEntry.version;
+      window.localStorage.setItem(obj.key, JSON.stringify(obj));
+      return InoutEntry.toObject(window.localStorage.getItem(obj.key));
+    }
     return new InoutEntry(
+      obj.version ? obj.version: InoutEntry.version,
       obj.category, 
       obj.price, 
       obj.details ? obj.details : "", 
       obj.time ? obj.time : Date.now(), 
+      obj.repeat ? obj.repeat : {repeat: false},
       obj.key ? obj.key : `_ENTRY_${Date.now()}`
     );
   }
 
   toString(): string {
-    return JSON.stringify(this.object);
+    return JSON.stringify({
+      version: this.version,
+      category: this._category,
+      price: this._price,
+      details: this._details,
+      time: this._time,
+      key: this._key,
+      repeat: this._repeatable
+    });
   }
 
 
@@ -92,38 +164,46 @@ export class InoutEntry {
   // getter and setter
 
   get category ():string {
-    return this.object.category;
+    return this._category;
   }
   set category (newCategory: string) {
-     this.object.category = newCategory;
+     this._category = newCategory;
   }
 
   get price ():number {
-    return this.object.price;
+    return this._price;
   }
   set price (value: number) {
-    this.object.price = value;
+    this._price = value;
   }
 
   get key ():string {
-    return this.object.key;
+    return this._key;
   }
   set key (val: string) {
-    this.object.key = val;
+    this._key = val;
   }
 
   get time ():number{
-    return this.object.time;
+    return this._time;
   }
   set time(time: number){
-    this.object.time = time;
+    this._time = time;
   }
 
   get details ():string {
-    return this.object.details;
+    return this._details;
   }
   set details (newDetails: string) {
-    this.object.details = newDetails;
+    this._details = newDetails;
+  }
+
+  get repeatable (): Repeat {
+    return this._repeatable;
+  }
+
+  set repeatable (repeat: Repeat) {
+    this._repeatable = repeat;
   }
 
 }

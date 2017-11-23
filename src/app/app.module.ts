@@ -12,7 +12,6 @@ import { DetailsPageModule } from '../pages/details/details.module';
 import { ImpressumPageModule } from '../pages/impressum/impressum.module';
 import { DisclaimerPageModule } from '../pages/disclaimer/disclaimer.module';
 import { DatenschutzPageModule } from '../pages/datenschutz/datenschutz.module';
-import { DatenschutzPage } from '../pages/datenschutz/datenschutz';
 
 @NgModule({
   declarations: [

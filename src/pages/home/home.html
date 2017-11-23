@@ -24,7 +24,7 @@
     </ion-fab-list>
   </ion-fab>
   <ion-list>
-    <ion-item *ngFor="let entry of entries" [navPush]="detailsPage" [navParams]="entry">
+    <ion-item *ngFor="let entry of output" [navPush]="detailsPage" [navParams]="entry">
       <ion-avatar item-start>
         <canvas class="avatarCategory" width="48" height="48">
         </canvas>

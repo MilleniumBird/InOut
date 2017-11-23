@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { InoutEntry } from '../../providers/entries/entries';
-import { EntriesProvider } from '../../providers/entries/entries'; 
+import { EntriesProvider, InoutEntry } from '../../providers/entries/entries'; 
 
 /**
  * Generated class for the DetailsPage page.
@@ -26,7 +25,6 @@ export class DetailsPage {
       this.entry[name] = ev.target.value;
     } else {
       let d: Date = new Date(ev.target.value);
-      console.log(d.getFullYear());
       this.entry[name] = d.getTime();
     }
   }
@@ -37,6 +35,22 @@ export class DetailsPage {
   }
 
   addEntryToStorage (factor: number){
+
+    // check if its is copy, if entry is copy create new key
+    if(this.entry.repeatable.copy) {
+      let time = this.entry.time;
+      let parentEntry = InoutEntry.toObject(window.localStorage.getItem(this.entry.key));
+      if (parentEntry.repeatable.exept === undefined) {
+        parentEntry.repeatable.exept = [];
+      }
+      parentEntry.repeatable.exept.push(time);
+      this.entriesProv.set(parentEntry);
+
+      this.entry.key = `_ENTRY_${Date.now()}`;
+      this.entry.repeatable = {repeat: false}
+      
+    }
+
     this.entry.price *= factor;
     this.entriesProv.set(this.entry);
     this.events.publish('reloadData');

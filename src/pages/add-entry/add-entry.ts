@@ -15,7 +15,11 @@ import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
   templateUrl: 'add-entry.html',
 })
 export class AddEntryPage {
-  private inputObj: any = {};
+  private inputObj: any = {
+    repeat: {repeat: false}
+  };
+  private showSubList: string = 'none';
+  private console = console;
   constructor(public navCtrl: NavController, public navParams: NavParams, private entriesProv: EntriesProvider, public events: Events) {
 
   }
