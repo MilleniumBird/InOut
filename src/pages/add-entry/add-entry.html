@@ -67,6 +67,14 @@
       <ion-label>Wiederholung:</ion-label>
       <ion-checkbox color="primary" (click)="inputObj.repeat.repeat = !inputObj.repeat.repeat;"></ion-checkbox>
     </ion-item>
+    <ion-item>
+      <ion-label>von:</ion-label>
+      <ion-input type="date" (input)="inputObj.time=timeAsNumber($event);"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>bis:</ion-label>
+      <ion-input type="date" (input)="inputObj.repeat.end= timeAsNumber($event);"></ion-input>
+    </ion-item>
     <!-- weekly -->
     <!-- checkbox-->
     <ion-item>

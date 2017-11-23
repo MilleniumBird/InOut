@@ -19,7 +19,6 @@ export class AddEntryPage {
     repeat: {repeat: false}
   };
   private showSubList: string = 'none';
-  private console = console;
   constructor(public navCtrl: NavController, public navParams: NavParams, private entriesProv: EntriesProvider, public events: Events) {
 
   }
@@ -37,5 +36,10 @@ export class AddEntryPage {
     this.entriesProv.set(inout);
     this.events.publish('reloadData');
   };
+
+  timeAsNumber (ev: any) {
+    let d = new Date(ev.target.value);
+    return d.getTime();
+  }
 
 }

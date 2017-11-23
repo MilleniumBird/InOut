@@ -48,7 +48,8 @@ export class EntriesProvider {
           // weekly 
           if (entry.repeatable.weekly !== undefined) {
             let creationDate = new Date (entry.time);
-            let exeptList = entry.repeatable.exept.slice(0);
+            let endTime = entry.repeatable.end !== undefined ? entry.repeatable.end : undefined; 
+            let exeptList = entry.repeatable.exept !== undefined ? entry.repeatable.exept.slice(0) : [];
             for (let dayOfWeek of entry.repeatable.weekly) {
               dayOfWeek = Number(dayOfWeek);
               let date;
@@ -66,6 +67,8 @@ export class EntriesProvider {
                 } else if (exeptList.indexOf(date.getTime()) >= 0) {
                   date = new Date (date.getTime() + 7*24*60*60*1000);
                   continue;
+                } else if (endTime !== undefined && endTime <= date.getTime()) {
+                  break;
                 }
                 entry.repeatable = {repeat: false, copy: true};
                 entry.time = date.getTime();
