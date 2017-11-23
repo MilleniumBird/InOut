@@ -16,8 +16,12 @@ import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
 })
 export class DetailsPage {
   private entry: any = {};
+  private detailsPage = DetailsPage;
+
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private entriesProv: EntriesProvider) {
    this.entry = InoutEntry.toObject(this.navParams.data.toString());
+   this.entry.parent = this.entry.repeatable.copy !== undefined ? InoutEntry.toObject(window.localStorage.getItem(this.entry.key)) : undefined;
+   console.log(this.entry);
   }
 
   changeInputObj (ev: any, name: string, date: boolean = false) {
@@ -33,6 +37,7 @@ export class DetailsPage {
     this.entriesProv.delete(this.entry.key);
     this.events.publish('reloadData');
   }
+
 
   addEntryToStorage (factor: number){
 
@@ -55,6 +60,11 @@ export class DetailsPage {
     this.entriesProv.set(this.entry);
     this.events.publish('reloadData');
   };
+
+  timeAsNumber (ev: any) {
+    let d = new Date(ev.target.value);
+    return d.getTime();
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailsPage');

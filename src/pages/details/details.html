@@ -39,10 +39,42 @@
             </ion-col>
           </ion-row>
           <ion-row>
-            <ion-col col-12>
+            <ion-col col-6>
               <button ion-button outline (click)="removeEntryFromStorage()" navPop><ion-icon name="trash"></ion-icon></button>
             </ion-col>
+            <ion-col col-6>
+              <button ion-button outline *ngIf="entry.parent !== undefined" navPop [navPush]="detailsPage" [navParams]="this.entry.parent"><ion-icon name="build"></ion-icon></button>
+            </ion-col>-
           </ion-row>
         </ion-grid>
+  </ion-list>
+  <ion-list *ngIf="entry.repeatable.repeat===true">
+    <ion-item>
+      <ion-label>von:</ion-label>
+      <ion-input type="date" value="{{entry.formatDate(entry.time, 'DATE_STRING')}}" (input)="entry.time=timeAsNumber($event);"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>bis:</ion-label>
+      <ion-input type="date" value="{{entry.formatDate(entry.repeatable.end, 'DATE_STRING')}}"(input)="entry.repeatable.end=timeAsNumber($event);"></ion-input>
+    </ion-item>
+    <!-- weekly -->
+    <!-- checkbox-->
+    <ion-item>
+        <ion-label>Wöchentlich:</ion-label>
+        <ion-checkbox color="primary" [checked]="entry.repeatable.weekly !== undefined" (click)="entry.repeatable.weekly = entry.repeatable.weekly === undefined ? [0] : undefined;"></ion-checkbox>
+    </ion-item>
+    <!-- dayPicker -->
+    <ion-item *ngIf="entry.repeatable.weekly">
+        <ion-label>Tag:</ion-label>
+        <ion-select [(ngModel)]="entry.repeatable.weekly" multiple="true" value="entry.repeatable.weekly">
+          <ion-option value="1">Montag</ion-option>
+          <ion-option value="2">Dienstag</ion-option>
+          <ion-option value="3">Mittwoch</ion-option>
+          <ion-option value="4">Donnerstag</ion-option>
+          <ion-option value="5">Freitag</ion-option>
+          <ion-option value="6">Samstag</ion-option>
+          <ion-option value="0">Sonntag</ion-option>
+        </ion-select>
+      </ion-item>
   </ion-list>
 </ion-content>
