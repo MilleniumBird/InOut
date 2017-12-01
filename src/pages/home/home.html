@@ -1,40 +1,40 @@
 <ion-header>
   <ion-navbar color="primary">
 
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+	<button ion-button menuToggle>
+	  <ion-icon name="menu"></ion-icon>
+	</button>
 
-    <ion-title>
-      <h1 style="width:100%;">{{balance/100}} €</h1>
-    </ion-title>
+	<ion-title>
+	  <h1 style="width:100%;">{{balance/100}} €</h1>
+	</ion-title>
 
   </ion-navbar>
 </ion-header>
 
 <ion-content>
   <ion-fab bottom right>
-    <button ion-fab color="ora">
-      <ion-icon name="add"></ion-icon>
-    </button>
-    <ion-fab-list side="left">
-      <button ion-fab [navPush]="addEntry">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-fab-list>
+	<button ion-fab color="ora">
+	  <ion-icon name="add"></ion-icon>
+	</button>
+	<ion-fab-list side="left">
+	  <button ion-fab [navPush]="addEntry">
+		<ion-icon name="add"></ion-icon>
+	  </button>
+	</ion-fab-list>
   </ion-fab>
   <ion-list>
-    <ion-item *ngFor="let entry of output" [navPush]="detailsPage" [navParams]="entry">
-      <ion-avatar item-start>
-        <canvas class="avatarCategory" width="48" height="48">
-        </canvas>
-      </ion-avatar>
+	<ion-item *ngFor="let entry of output" [navPush]="detailsPage" [navParams]="entry">
+	  <ion-avatar item-start>
+		<canvas class="avatarCategory" width="48" height="48">
+		</canvas>
+	  </ion-avatar>
 
-      <h2>{{entry.category}}</h2>
-      <p>{{entry.formatDate(entry.time, 'LAST_TWO')}}: {{entry.details}}</p>
+	  <h2>{{entry.category}}</h2>
+	  <p>{{entry.formatDate(entry.time, 'LAST_TWO')}}: {{entry.details}}</p>
 
-      <h1 item-end>{{entry.price}}€</h1>
+	  <h1 item-end>{{entry.price}}€</h1>
 
-    </ion-item>
+	</ion-item>
   </ion-list>
 </ion-content>
