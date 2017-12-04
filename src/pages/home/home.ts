@@ -13,13 +13,15 @@ export class HomePage {
   private output: Array<InoutEntry> = [];
   private balance: number = 0;
   private addEntry: any;
-  private detailsPage: any;
+	private detailsPage: any;
+	private inoutEntry: any;
 
   constructor(public navCtrl: NavController, private entriesProv: EntriesProvider, public events: Events) {
 	console.log("started app");
 	this.getEntries ();
 	this.addEntry = AddEntryPage;
 	this.detailsPage = DetailsPage;
+	this.inoutEntry = InoutEntry;
 	// events
 	this.events.subscribe('reloadData', () => {
 	  this.getEntries();

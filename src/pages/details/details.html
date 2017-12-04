@@ -30,7 +30,7 @@
     </ion-item>
     <ion-item>
         <ion-label floating>Datum:</ion-label>
-        <ion-input type="date" value="{{entry.formatDate(entry.time, 'DATE_STRING')}}" (input)="changeInputObj($event, 'time', true)"></ion-input>
+        <ion-input type="date" value="{{inoutEntry.formatDate(entry.time, 'DATE_STRING')}}" (input)="changeInputObj($event, 'time', true)"></ion-input>
       </ion-item>
       <ion-grid>
           <ion-row>
@@ -51,11 +51,11 @@
   <ion-list *ngIf="entry.repeatable.repeat===true">
     <ion-item>
       <ion-label>von:</ion-label>
-      <ion-input type="date" value="{{entry.formatDate(entry.time, 'DATE_STRING')}}" (input)="entry.time=timeAsNumber($event);"></ion-input>
+      <ion-input type="date" value="{{inoutEntry.formatDate(entry.time, 'DATE_STRING')}}" (input)="entry.time=timeAsNumber($event);"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>bis:</ion-label>
-      <ion-input type="date" value="{{entry.formatDate(entry.repeatable.end, 'DATE_STRING')}}"(input)="entry.repeatable.end=timeAsNumber($event);"></ion-input>
+      <ion-input type="date" value="{{inoutEntry.formatDate(entry.repeatable.end, 'DATE_STRING')}}"(input)="entry.repeatable.end=timeAsNumber($event);"></ion-input>
     </ion-item>
     <!-- weekly -->
     <!-- checkbox-->

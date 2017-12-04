@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'; 
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
-import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
+import { EntriesProvider, InoutEntry, DateFormat } from '../../providers/entries/entries';
 
 /**
  * Generated class for the AddEntryPage page.
@@ -18,9 +18,10 @@ export class AddEntryPage {
   private inputObj: any = {
     repeat: {repeat: false}
   };
-  private showSubList: string = 'none';
+  private actualDate: string = InoutEntry.formatDate(Date.now(), DateFormat.dateInput);
+  private showSubList: string;
   constructor(public navCtrl: NavController, public navParams: NavParams, private entriesProv: EntriesProvider, public events: Events) {
-
+    this.showSubList = 'none'
   }
 
   ionViewDidLoad() {

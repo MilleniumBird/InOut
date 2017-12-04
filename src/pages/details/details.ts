@@ -17,6 +17,7 @@ import { EntriesProvider, InoutEntry } from '../../providers/entries/entries';
 export class DetailsPage {
   private entry: any = {};
   private detailsPage = DetailsPage;
+  private inoutEntry = InoutEntry;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public events: Events, private entriesProv: EntriesProvider) {
    this.entry = InoutEntry.toObject(this.navParams.data.toString());

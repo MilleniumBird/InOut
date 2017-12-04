@@ -130,21 +130,7 @@ export class InoutEntry {
     );
   }
 
-  toString(): string {
-    return JSON.stringify({
-      version: this.version,
-      category: this._category,
-      price: this._price,
-      details: this._details,
-      time: this._time,
-      key: this._key,
-      repeat: this._repeatable
-    });
-  }
-
-
-
-  formatDate (date: number,dateFormat: DateFormat): string {
+  static formatDate (date: number,dateFormat: DateFormat): string {
     switch (dateFormat) {
       case DateFormat.dateInput: 
         let d: Date = new Date(date);
@@ -162,6 +148,18 @@ export class InoutEntry {
       default: 
         throw new Error('this dateFormat isnt known');
     }
+  }
+
+  toString(): string {
+    return JSON.stringify({
+      version: this.version,
+      category: this._category,
+      price: this._price,
+      details: this._details,
+      time: this._time,
+      key: this._key,
+      repeat: this._repeatable
+    });
   }
 
   // getter and setter

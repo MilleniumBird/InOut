@@ -48,12 +48,7 @@
       </ion-row>
       <ion-row>
         <!-- show repeat Icon (repeat not active)-->
-        <ion-col col-3 *ngIf="!inputObj.repeat.repeat">
-          <button ion-button outline (click)="showSubList = showSubList === 'none' ? 'repeat': 'none';">
-            <ion-icon name="repeat"></ion-icon>
-          </button>
-        </ion-col>
-        <ion-col col-3 *ngIf="inputObj.repeat.repeat">
+        <ion-col col-3>
           <button ion-button full (click)="showSubList = showSubList === 'none' ? 'repeat': 'none';">
             <ion-icon name="repeat"></ion-icon>
           </button>
@@ -69,11 +64,11 @@
     </ion-item>
     <ion-item>
       <ion-label>von:</ion-label>
-      <ion-input type="date" (input)="inputObj.time=timeAsNumber($event);"></ion-input>
+      <ion-input type="date" value="{{actualDate}}" (input)="inputObj.time=timeAsNumber($event);"></ion-input>
     </ion-item>
     <ion-item>
       <ion-label>bis:</ion-label>
-      <ion-input type="date" (input)="inputObj.repeat.end= timeAsNumber($event);"></ion-input>
+      <ion-input type="date" value="{{actualDate}}" (input)="inputObj.repeat.end= timeAsNumber($event);"></ion-input>
     </ion-item>
     <!-- weekly -->
     <!-- checkbox-->
