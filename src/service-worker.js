@@ -7,8 +7,10 @@
 'use strict';
 importScripts('./build/sw-toolbox.js');
 
+let version = '0.0.1';
+
 self.toolbox.options.cache = {
-  name: 'ionic-cache'
+  name: 'inout' + version
 };
 
 // pre-cache our key assets
